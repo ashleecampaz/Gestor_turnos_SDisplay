@@ -7,7 +7,7 @@
 #define _INTERFACECLIENTESERVIDORMODULOS_H_RPCGEN
 
 #include <rpc/rpc.h>
-
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,9 +35,10 @@ struct modulo
 	int numeroTurno;
 	char identificacionUsuario[MAXIDENTIFICACION];
 };
-typedef modulo modulo;
 
-extern modulo vectorModulo[3];
+typedef struct modulo modulo;
+
+extern modulo vectorModulos[3];
 
 #define autorizar_usuarios 0x20000001
 #define autorizar_usuarios_version 1

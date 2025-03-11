@@ -5,29 +5,60 @@
  */
 
 #include "InterfaceClienteServidorModulos.h"
+#include "InterfaceServidorModuloServidorDisplay.h"
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
 
-struct modulo {
-	bool ocupado;
-	int numeroTurno;
-	char identificacionUsuario[MAXIDENTIFICACION];
 
-};
 
-typedef struct modulo modulo;
 
-struct usuario{
-	char identificacionUsuario[MAXIDENTIFICACION];
-};
-
-typedef struct usuario usuario;
 int consultarNUmeroModuloDisponible();
 int numeroTurno =1;
 int cantidadUsuariosFila = 0;
 modulo vectorModulos[3];
 usuario filaVirtual[10];
+
+void notificarModulos()
+{
+	CLIENT *datosConexionServidor;
+	void *resultadoEnvio;
+	char ipServidor[20];
+	strcpy(ipServidor, "localhost");
+
+#ifndef DEBUG 
+	//con clnt_create se obtiene la ubicacion al servidor display
+	datosConexionServidor == clnt_create(ipServidor, notificar_modulos, notificar_modulos_version, "udp");
+	if (datosConexionServidor == NULL)
+	{
+		clnt_pcreateerror (ipServidor);
+		exit (1);
+	}
+#endif /*DEBUG*/
+
+	notificacion objNotificacion;
+	for (int i = 0; i < 3; i++)
+	{
+		strcpy(objNotificacion.modulos[i].identificacionUsuario,vectorModulos[i].identificacionUsuario);
+		objNotificacion.modulos[i].noModulo = vectorModulos[i].noModulo;
+		objNotificacion.modulos[i].turno = vectorModulos[i].numeroTurno;
+		objNotificacion.modulos[i].ocupado = vectorModulos[i].ocupado;
+	}
+	objNotificacion.cantidadUsuariosFilaVirtual = cantidadUsuariosFila;
+
+	//Se invoca el procedimiento remoto para enviar la notificacion
+	resultadoEnvio = enviarnotificacion_1(&objNotificacion, datosConexionServidor);
+	if (resultadoEnvio == (void *) NULL)
+	{
+		clnt_perror (datosConexionServidor, "call failed");
+	}
+
+#ifndef DEBUG
+	//Se liberan recursos del lado del cliente
+	clnt_destroy (datosConexionServidor);
+#endif /*DEBUG*/
+}
+
 
 nodo_turno *  generarturno_1_svc(char **argp, struct svc_req *rqstp)
 {

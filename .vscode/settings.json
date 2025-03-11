@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "interfaceclienteservidormodulos.h": "c",
+        "interfaceservidormoduloservidordisplay.h": "c",
+        "stdbool.h": "c"
+    }
+}
