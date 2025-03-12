@@ -14,7 +14,7 @@ int cantidadUsuariosFilaVirtual;
 };
 /*Definicion de las operaciones que se pueden realizar*/
 program notificar_modulos{
-version notificar_modulos_version{
-void enviarNotificacion(notificacion objNotificacion)=1;
-}=1;
+    version notificar_modulos_version{
+        void enviarNotificacion(notificacion objNotificacion)=1;
+    }=1;
 }=0x20000002;

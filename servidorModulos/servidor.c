@@ -22,13 +22,15 @@ usuario filaVirtual[10];
 void notificarModulos()
 {
 	CLIENT *datosConexionServidor;
-	void *resultadoEnvio;
-	char ipServidor[20];
+	
+	char *ipServidor;
 	strcpy(ipServidor, "localhost");
-
+	void *resultadoEnvio;
 #ifndef DEBUG 
 	//con clnt_create se obtiene la ubicacion al servidor display
-	datosConexionServidor == clnt_create(ipServidor, notificar_modulos, notificar_modulos_version, "udp");
+
+	datosConexionServidor = clnt_create(ipServidor, notificar_modulos, notificar_modulos_version, "udp");
+	strcpy(datosConexionServidor->cl_netid,"udp"); 
 	if (datosConexionServidor == NULL)
 	{
 		clnt_pcreateerror (ipServidor);
